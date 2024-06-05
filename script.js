@@ -77,7 +77,7 @@ document.onkeyup = function(event){
 function tick(){
     canvas.width = window.innerWidth * 0.3;
     canvas.height = window.innerHeight* 0.3;
-    context.fillStyle = "black";
+    context.fillStyle = "#00008B";
     context.fillRect(canvas.width / 2 - HALF_WIDTH, canvas.height / 2 - HALF_HEIGHT, WIDTH, HEIGHT );
     let centerScreen = Math.floor(canvas.width / 2)-150
     
@@ -171,7 +171,7 @@ function tick(){
         let depth = verticalDepth < horizonatalDepth ? verticalDepth : horizonatalDepth; //shortest depth
         depth *= Math.cos(playerAngle - curAngle);//magisk linje der fjerner fisheye effekt
         let wallHeight = Math.min(GRID_SCALE * 300 / (depth + 0.0001), HEIGHT);
-        context.fillStyle = verticalDepth < horizonatalDepth ? '#aaa' : '#555';
+        context.fillStyle = verticalDepth < horizonatalDepth ? 'darkgrey' : '#F0F8FF';
         context.fillRect(centerScreen + ray, 11 + ( HEIGHT / 2 - wallHeight / 2), 1, wallHeight);
 
         curAngle -= ANGLE_STEP;

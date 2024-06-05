@@ -172,7 +172,7 @@ function tick(){
         depth *= Math.cos(playerAngle - curAngle);//magisk linje der fjerner fisheye effekt
         let wallHeight = Math.min(GRID_SCALE * 300 / (depth + 0.0001), HEIGHT);
         context.fillStyle = verticalDepth < horizonatalDepth ? '#aaa' : '#555';
-        context.fillRect(centerScreen + ray, ( HEIGHT / 2 - wallHeight / 2), 1, wallHeight);
+        context.fillRect(centerScreen + ray, 11 + ( HEIGHT / 2 - wallHeight / 2), 1, wallHeight);
 
         curAngle -= ANGLE_STEP;
         

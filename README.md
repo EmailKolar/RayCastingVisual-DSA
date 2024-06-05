@@ -1,6 +1,7 @@
-![image](https://github.com/EmailKolar/RayCastingVisual-DSA/assets/113354212/69b27412-ccb3-4f98-befb-cf0c34df182b)
+![image](https://github.com/EmailKolar/RayCastingVisual-DSA/assets/113354212/fd8875b5-f786-4f25-89d9-4d7a4ebfab70)
 
 Deployed version: https://emailkolar.github.io/RayCastingVisual-DSA/
+
 Use arrow keys to move around :)
 
 Raycasting er den metode jeg har brugt til at simulere synsfeltet i dette spil. 

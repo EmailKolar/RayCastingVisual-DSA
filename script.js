@@ -23,7 +23,7 @@ let GRID = [
     1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -102,20 +102,18 @@ function tick(){
     }
 
     //RAYCASTING
-    let currentAngle = playerAngle + (FOV/2);
+    let curAngle = playerAngle + (FOV/2);
     let rayStartX = Math.floor(playerPosX / GRID_SCALE) * GRID_SCALE; //Vi sætter ray start til topleft af den celle player er i
     let rayStartY = Math.floor(playerPosY / GRID_SCALE) * GRID_SCALE;
 
     for(let ray = 0; ray < WIDTH; ray++){//300 rays fordi det er vores resoluton
-
-        let currentSin = Math.sin(currentAngle); 
-        currentSin = currentSin ? currentSin : 0.000001;//if currentSin = 0, set to 0.0..1 For at undgå 0division
-        let currentCos = Math.cos(currentAngle); 
-        currentCos = currentCos ? currentCos : 0.000001;//if currentCos = 0, set to 0.0..1 For at undgå 0division
-
+        let curSin = Math.sin(curAngle); 
+        curSin = curSin ? curSin : 0.000001;//if currentSin = 0, set to 0.0..1 For at undgå 0division
+        let curCos = Math.cos(curAngle); 
+        curCos = curCos ? curCos : 0.000001;//if currentCos = 0, set to 0.0..1 For at undgå 0division
         //vertical line intersection
         let rayEndX, rayEndY, rayDirectionX, verticalDepth;
-        if(currentSin > 0){ // peger højre
+        if(curSin > 0){ // peger højre
             rayEndX = rayStartX + GRID_SCALE; //Vi tilføjer Scale for at sætte os i højre hjørne
             rayDirectionX = 1; //positiv x retning
         }else{ // peger venstre
@@ -123,11 +121,11 @@ function tick(){
             rayDirectionX = -1; //negativ x-retning
         }
         for(let offset = 0; offset < GRID_RANGE; offset += GRID_SCALE){ // vi looper maksimale antal gange af hvor stor griddet er, men vi vil altid nå et break
-            verticalDepth = (rayEndX - playerPosX) / currentSin; 
-            rayEndY = playerPosY + verticalDepth * currentCos;
+            verticalDepth = (rayEndX - playerPosX) / curSin; 
+            rayEndY = playerPosY + verticalDepth * curCos;
             let gridTargetX = Math.floor(rayEndX / GRID_SCALE);
             let gridTargetY = Math.floor(rayEndY / GRID_SCALE);
-            if(currentSin <= 0){ // for ikke at komme udenfor griddet hvis vi peger til venstre
+            if(curSin <= 0){ // for ikke at komme udenfor griddet hvis vi peger til venstre
                     gridTargetX += rayDirectionX;
             }
             let targetSquare = gridTargetY * GRID_SIZE + gridTargetX; // vi finder arr index
@@ -140,11 +138,10 @@ function tick(){
             rayEndX += rayDirectionX * GRID_SCALE; //vi incrementer med en celle bredde
         }
 
-       
-
         //hori line intersection
-        let rayDirectionY, horizonatalDepth;
-        if(currentCos > 0){
+        let rayDirectionY;
+        let horizonatalDepth;
+        if(curCos > 0){
             rayEndY = rayStartY + GRID_SCALE;
             rayDirectionY = 1;
         }else{
@@ -152,11 +149,11 @@ function tick(){
             rayDirectionY = -1;
         }
         for(let offset = 0; offset < GRID_RANGE; offset += GRID_SCALE){
-            horizonatalDepth = (rayEndY - playerPosY) / currentCos;
-            rayEndX = playerPosX + horizonatalDepth * currentSin;
+            horizonatalDepth = (rayEndY - playerPosY) / curCos;
+            rayEndX = playerPosX + horizonatalDepth * curSin;
             let gridTargetX = Math.floor(rayEndX / GRID_SCALE);
             let gridTargetY = Math.floor(rayEndY / GRID_SCALE);
-            if(currentCos <= 0){ // for ikke at komme udenfor griddet
+            if(curCos <= 0){ // for ikke at komme udenfor griddet
                     gridTargetY += rayDirectionY;
             }
             let targetSquare = gridTargetY * GRID_SIZE + gridTargetX;
@@ -172,13 +169,12 @@ function tick(){
 
         //render 3d projection
         let depth = verticalDepth < horizonatalDepth ? verticalDepth : horizonatalDepth; //shortest depth
-        depth *= Math.cos(playerAngle - currentAngle);//magisk linje der fjerner fisheye effekt
+        depth *= Math.cos(playerAngle - curAngle);//magisk linje der fjerner fisheye effekt
         let wallHeight = Math.min(GRID_SCALE * 300 / (depth + 0.0001), HEIGHT);
         context.fillStyle = verticalDepth < horizonatalDepth ? '#aaa' : '#555';
         context.fillRect(centerScreen + ray, ( HEIGHT / 2 - wallHeight / 2), 1, wallHeight);
 
-
-        currentAngle -= ANGLE_STEP;
+        curAngle -= ANGLE_STEP;
         
     }
 

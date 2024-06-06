@@ -9,3 +9,4 @@ Forestil dig at du står i en labyrint med en lommelygte. Når du lyser med lomm
 sender den lysstråler ud der rammer væggene. Mit program udregner hvor disse lysstråler 
 rammer, og bruger den information til at tegne et billede af hvad du kan se på skærmen. 
 På den måde kan du navigere rundt i den virtuelle verden.
+
